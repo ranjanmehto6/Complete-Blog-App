@@ -1,12 +1,14 @@
 package com.demo.blog.entities;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
 @Entity
 @Table(name = "users")
 public class User {

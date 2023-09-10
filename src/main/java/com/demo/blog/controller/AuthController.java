@@ -38,14 +38,22 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
 
 
-    @PostMapping("/signin")
-    public ResponseEntity<String> authenticateUser(@RequestBody LoginDto loginDto){
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken
-                (loginDto.getUsernameOrEmail(),loginDto.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        return new ResponseEntity<>("User signed in succesfully",HttpStatus.OK);
+//    @PostMapping("/signin")
+//    public ResponseEntity<String> authenticateUser(@RequestBody LoginDto loginDto){
+//        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken
+//                (loginDto.getUsernameOrEmail(),loginDto.getPassword()));
+//        SecurityContextHolder.getContext().setAuthentication(authentication);
+//        return new ResponseEntity<>("User signed in succesfully",HttpStatus.OK);
+//
+//    }
+@PostMapping("/signin")
+public ResponseEntity<String> authenticateUser(@RequestBody LoginDto loginDto){
+    Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken
+            (loginDto.getUsername(),loginDto.getPassword()));
+    SecurityContextHolder.getContext().setAuthentication(authentication);
+    return new ResponseEntity<>("User signed in succesfully",HttpStatus.OK);
+}
 
-    }
 
 
     //Create LoginDto
@@ -60,16 +68,15 @@ public class AuthController {
     public ResponseEntity<?> registerUser(@RequestBody SignUpDto signUpDto){
 
         boolean b = userRepositry.existsByEmail(signUpDto.getEmail());
-        if (b){
+        if (b) {
             return new ResponseEntity<>("Duplicate email", HttpStatus.BAD_REQUEST);
-
         }
 
         boolean b1 = userRepositry.existsByUsername(signUpDto.getUsername());
-        if (b1){
+        if (b1) {
             return new ResponseEntity<>("Duplicate username", HttpStatus.BAD_REQUEST);
-
         }
+
         User user = new User();
         user.setName(signUpDto.getName());
         user.setUsername(signUpDto.getUsername());

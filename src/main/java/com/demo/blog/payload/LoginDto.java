@@ -1,12 +1,15 @@
 package com.demo.blog.payload;
 
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class LoginDto {
 
 
-    private String usernameOrEmail;
+    private String username;
     private String password;
 
 
